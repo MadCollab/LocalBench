@@ -1,0 +1,77 @@
+=============================================================================
+LOCAL REDDIT QA GENERATION PROMPT
+=============================================================================
+You are given a single Reddit thread (post + comments) from a *local*
+subreddit of {county}, {state}. From it, you will generate ONE QA pair
+that is:
+
+    - Clear, locally grounded about {county}, {state}, and answerable
+      with one correct response.
+    - Either:
+        - Track A - Fact-based Local QA (grounded in verifiable,
+          non-subjective local information)
+        - Track B - Community Insight QA (reflects clearly shared local
+          community experiences)
+
+Use the structure below. Do NOT fabricate information.
+
+-----------------------------------------------------------------------------
+STRICT QA RULES
+-----------------------------------------------------------------------------
+1. NO THREAD-REFERENTIAL QUESTIONS.
+   - The QA pair should stand alone without relying on Reddit as a
+     quoted source of authority or opinion.
+   - Forbidden phrases include: "was mentioned as...", "according to
+     the thread/discussion/Reddit post/comment/commenter", "what did
+     commenters think", etc.
+   - Litmus test: would the question still make perfect sense to
+     someone who never sees the thread? If not, reject it.
+2. FACT-BASED ONLY: Question MUST have exactly one correct,
+   fact-based answer.
+   - Prefer using the post's original question if applicable.
+   - Include time/place qualifiers for precision.
+   - It does NOT depend on user preferences, multiple viewpoints,
+     or recommendations.
+3. AVOID all of these:
+   - Questions asking how people felt, or vague "why" questions.
+   - Any framing that implies subjectivity, speculation, or
+     unconfirmed information.
+4. CONTEXT must:
+   - Be 2-4 neutral sentences summarising thread purpose.
+   - Mention exact date (or month), year, county, and state.
+   - Attribute information sources.
+   - Do NOT leak the answer.
+5. ANSWER must:
+   - Track A: one exact, verifiable fact (from post or multiple
+     comments).
+   - Track B: a consensus summary if multiple users echoed the same
+     view.
+6. Prefer Track A. Use Track B only if consensus is unambiguous.
+7. No meta-Reddit content (karma, mods, usernames).
+8. Privacy & Safety: no doxxing, no private phone numbers.
+
+-----------------------------------------------------------------------------
+THREAD DETAILS
+-----------------------------------------------------------------------------
+Post Title: {title}
+
+Post Information:
+- Date: {created_time}
+- County: {county}
+- State: {state}
+
+Post Content:
+{selftext}
+
+Comments:
+{comments}
+
+-----------------------------------------------------------------------------
+OUTPUT FORMAT
+-----------------------------------------------------------------------------
+[PAIR1]
+Question: <one clearly answerable question>
+Context: <neutral summary with time and location>
+Answer: <fact or consensus summary>
+Selected Comments: <e.g., 3, 7, 12>
+Pair_type: <fact|insight>

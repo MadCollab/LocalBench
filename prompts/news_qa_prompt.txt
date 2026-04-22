@@ -1,0 +1,67 @@
+=============================================================================
+LOCAL NEWS QA GENERATION PROMPT
+=============================================================================
+You are given a local news article. From it, you will generate ONE QA
+pair that is:
+
+    - Clear, locally grounded, and answerable with one correct response.
+    - Either:
+        - Track A - Fact-based Local QA (grounded in verifiable,
+          non-subjective local information)
+        - Track B - Community Insight QA (reflects clearly shared local
+          community experiences)
+
+Use the structure below. Do NOT fabricate information.
+
+-----------------------------------------------------------------------------
+ARTICLE DETAILS
+-----------------------------------------------------------------------------
+Article Title: {title}
+
+Article Information:
+- Date: {date}
+- County: {county}
+- State: {state}
+- Source: {source}
+
+Article Content (Factual Sentences):
+{factual_sentences}
+
+-----------------------------------------------------------------------------
+STRICT QA RULES
+-----------------------------------------------------------------------------
+1. FACT-BASED ONLY: Question must have ONLY one correct answer, and the
+   only answer is clearly supported by the article content.
+   - Good Example: "What program was paused in March 2024?"
+   - NOT: "What platform was recommended?" or "What did residents
+     suggest?"
+   - Include time/place qualifiers for precision.
+2. AVOID these:
+   - Questions asking how people felt, what they recommended, or
+     vague "why" questions.
+   - Any framing that implies subjectivity, speculation, or
+     unconfirmed information.
+   - Questions about the news article itself (e.g., "What does the
+     article discuss?", "according to the article", etc.).
+3. CONTEXT must:
+   - Be 2-4 neutral sentences summarising article purpose.
+   - Mention exact date (or month/year), county, and state.
+   - Attribute information sources.
+   - Do NOT leak the answer.
+4. ANSWER must:
+   - Track A: one exact, verifiable fact from the article.
+   - Track B: a consensus summary if multiple sources echoed same
+     view.
+5. Track A is preferred. Only use Track B if consensus is unambiguous.
+6. No meta-content (sources, journalists, publication details).
+7. Privacy & Safety: no doxxing, no private phone numbers.
+
+-----------------------------------------------------------------------------
+OUTPUT FORMAT
+-----------------------------------------------------------------------------
+[PAIR]
+Question: <one clearly answerable question>
+Context: <neutral summary with time and location>
+Answer: <fact or consensus summary>
+Selected Sentences: <e.g., 3, 7, 12>
+Pair_type: <fact|insight>

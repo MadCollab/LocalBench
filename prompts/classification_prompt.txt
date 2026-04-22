@@ -1,0 +1,32 @@
+You are given a question, a supporting context passage, and an answer ---
+all derived from a local news article. Your task is to identify 1 to 5
+dimensions from the list below that best describe the main localness
+themes expressed in the QA pair.
+
+---
+Question: {question}
+Context: {context}
+Answer: {answer}
+---
+
+INSTRUCTIONS:
+1. From the dimension list below, select at least 1 and at most 5
+   dimensions that best characterize what this QA pair is about.
+   - Only choose dimensions that are clearly relevant to the content.
+   - If unsure, select the most general applicable dimension.
+   - Do NOT default to the first few options; read the full list.
+2. You must copy each dimension name exactly as written below.
+3. Rank the selected dimensions by relevance, most relevant first.
+4. Output format:
+   - One dimension per line.
+   - No numbering, no bullet points, no explanation.
+   - Output must contain only valid dimension names.
+
+DIMENSION LIST (unordered):
+1. Cultural Understanding Dimension
+2. Environmental Cognition Dimension
+3. Local Knowledge Dimension
+4. Place Interaction Dimension
+5. Temporal Presence Dimension
+6. Emotional Connection Dimension
+7. Social and Community Engagement Dimension
