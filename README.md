@@ -201,8 +201,7 @@ LocalBench/
 │   ├── census_qa.py
 │   ├── quality_analyzer.py
 │   └── qa_generation_reference.ipynb
-├── outputs/               # predictions + reports (gitignored contents)
-└── docs/                  # PDFs of the paper and appendix
+└── outputs/               # predictions + reports (gitignored contents)
 ```
 
 ---
