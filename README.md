@@ -4,19 +4,11 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2511.10459-b31b1b.svg)](https://arxiv.org/abs/2511.10459)
 [![AAAI 2026](https://img.shields.io/badge/AAAI-2026-blue.svg)](#citation)
 
-> Benchmarking LLMs on **county-level local knowledge and reasoning**
-> across the United States.
+> Benchmarking LLMs on **county-level local knowledge and reasoning** across the United States.
 
-LocalBench is the first benchmark designed to systematically evaluate
-LLMs on hyper-local, county-level knowledge. It contains **14,782
-validated question-answer pairs across 526 U.S. counties in 49 states**,
-integrating Census statistics, local subreddit discourse, and regional
-news. It spans the physical, cognitive, and relational dimensions of
-locality defined by the Localness Conceptual Framework.
+LocalBench is the first benchmark designed to systematically evaluate LLMs on hyper-local, county-level knowledge. It contains **14,782 validated question-answer pairs across 526 U.S. counties in 49 states**, integrating Census statistics, local subreddit discourse, and regional news. It spans the physical, cognitive, and relational dimensions of locality defined by the Localness Conceptual Framework.
 
-This repository ships the dataset, the full evaluation pipeline (query
-+ metrics + aggregation), and a reference implementation of the QA
-generation pipeline used to build LocalBench.
+This repository ships the dataset, the full evaluation pipeline (query + metrics + aggregation), and a reference implementation of the QA generation pipeline used to build LocalBench.
 
 ---
 
@@ -68,12 +60,10 @@ outputs/
 Loaded via `loader.py`, every row exposes the fields:
 
 ```python
-id, dataset, county, state, fips, rucc, rucc_group, dimension,
-question_type, question, context, answer
+id, dataset, county, state, fips, rucc, rucc_group, dimension,question_type, question, context, answer
 ```
 
-See `data/README.md` for the per-file schema, and Appendix 14 of the
-paper for the full list of census metrics and their provenance.
+See `data/README.md` for the per-file schema, and Appendix 14 of the paper for the full list of census metrics and their provenance.
 
 Distribution by Localness dimension (Table 1):
 
@@ -94,8 +84,7 @@ Distribution by Localness dimension (Table 1):
 
 ### Option A — use one of the pre-wired backends
 
-Set the model id in `config.json` (or pass `--models`) and run
-`benchmark.py`. Pre-wired ids:
+Set the model id in `config.json` (or pass `--models`) and run `benchmark.py`. Pre-wired ids:
 
 ```
 gpt-4o                gpt-4.1                gpt-4.1-web
@@ -106,8 +95,7 @@ qwen3-8b  qwen3-14b  qwen3-32b  qwen3-30b-a3b  qwen3-235b-a22b
 
 ### Option B — plug in a new backend
 
-Create a subclass of `models.base.BaseModel` and register it in
-`models/__init__.py`. Every backend just needs to implement:
+Create a subclass of `models.base.BaseModel` and register it in `models/__init__.py`. Every backend just needs to implement:
 
 ```python
 def generate(self, messages, temperature=0.0, max_tokens=256) -> str: ...
@@ -118,11 +106,7 @@ def generate(self, messages, temperature=0.0, max_tokens=256) -> str: ...
 
 ### Option C — plain Hugging Face model
 
-Qwen backends already include a local HF path
-(`models/qwen_models.py`). Set `QWEN_API_BASE` to an OpenAI-compatible
-endpoint (vLLM, Together, DashScope, Ollama…) for large MoE models,
-or install `transformers` + `torch` to run the smaller dense models
-locally.
+Qwen backends already include a local HF path (`models/qwen_models.py`). Set `QWEN_API_BASE` to an OpenAI-compatible endpoint (vLLM, Together, DashScope, Ollama…) for large MoE models, or install `transformers` + `torch` to run the smaller dense models locally.
 
 ---
 
@@ -164,18 +148,13 @@ python benchmark.py --models gpt-4o gpt-4.1 gemini-2.5-pro \
 python benchmark.py --models gpt-4.1-web gemini-2.5-pro-grounding
 ```
 
-All models are called with `temperature=0.0` and `max_tokens=256`,
-matching the evaluation protocol in the paper. Three independent runs
-with different seeds can be obtained by repeating the command (the
-JSONL output is append-safe, and `evaluate.py` averages over everything
-it finds).
+All models are called with `temperature=0.0` and `max_tokens=256`, matching the evaluation protocol in the paper. Three independent runs with different seeds can be obtained by repeating the command (the JSONL output is append-safe, and `evaluate.py` averages over everything it finds).
 
 ---
 
 ## Regenerating the dataset
 
-If you want to extend LocalBench (new counties, new sources, new
-languages) use the scripts in `qa_generation/`:
+If you want to extend LocalBench (new counties, new sources, new languages) use the scripts in `qa_generation/`:
 
 ```bash
 python qa_generation/reddit_qa.py --input raw_reddit.parquet    --output data/reddit_QA.parquet
@@ -185,9 +164,7 @@ python qa_generation/census_qa.py --counties balanced_rucc_counties.csv \
                                   --output   data/census_QA.csv
 ```
 
-See `qa_generation/README.md` for the input schemas and the full
-three-stage pipeline (raw generation → multi-rule filter →
-feedback-driven refinement → localness classification).
+See `qa_generation/README.md` for the input schemas and the full three-stage pipeline (raw generation → multi-rule filter → feedback-driven refinement → localness classification).
 
 ---
 
@@ -253,23 +230,16 @@ If you use LocalBench, please cite:
 
 ## Ethics & responsible use
 
-LocalBench includes discourse from local subreddits and content from
-community news outlets. Please:
+LocalBench includes discourse from local subreddits and content from community news outlets. Please:
 
 - Do not use the dataset to re-identify individuals or communities.
 - Treat local-knowledge holders as partners, not data sources.
-- Follow the content policies of the upstream providers (Reddit, NELA,
-  Census, etc.) when redistributing or building on this work.
+- Follow the content policies of the upstream providers (Reddit, NELA, Census, etc.) when redistributing or building on this work.
 
-See the **Ethical Statement** section of the paper for a fuller
-discussion of community data sovereignty and participatory
-development.
+See the **Ethical Statement** section of the paper for a fuller discussion of community data sovereignty and participatory development.
 
 ---
 
 ## Acknowledgements
 
-LocalBench is a project from the University of Wisconsin–Madison and
-UCLA. We thank the many local subreddit moderators, community news
-outlets, and public-data curators whose work makes this benchmark
-possible.
+LocalBench is a project from the University of Wisconsin–Madison and UCLA. We thank the many local subreddit moderators, community news outlets, and public-data curators whose work makes this benchmark possible.
